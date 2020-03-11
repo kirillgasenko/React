@@ -5,8 +5,37 @@ import Todo from './components/todo'
 
 
 class App extends Component {
-    state = {
-      todos: []
+  constructor(props){
+    super(props);
+    this.some = {isToggleOn: true};
+    this.handleClick = this.handleClick.bind(this);
+    this.btn = this.btn.bind(this)
+  }
+  
+  handleClick() {
+    this.setState(some => ({
+      isToggleOn: !some.isToggleOn
+    }));
+  }
+
+  btn(id) {
+    this.setState({
+        todos: this.state.todos.filter(item => item.id !== id)
+    })
+  }
+
+  state = {
+    todos: []
+  }
+
+  shouldComponentUpdate(nextState){
+    console.log(nextState.isToggleOn);
+    console.log(this.state.isToggleOn);
+    return true;
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log("componentWillReceiveProps()");
   }
 
   componentDidMount = () =>{
@@ -15,27 +44,27 @@ class App extends Component {
         todos: [
           {
               id: 1,
-              title: 'Some 1',
-              desc: "something 1"
+              title: 'Car',
+              desc: "Subaru"
             },
             {
               id: 2,
-              title: 'Some 2',
-              desc: "something 2"
+              title: 'Car',
+              desc: "Audi"
             },
             {
               id: 3,
-              title: 'Some 3',
-              desc: "something 3"
+              title: 'Car',
+              desc: "Mercedes"
             },
             {
               id: 4,
-              title: 'Some 4',
-              desc: "something 4"
+              title: 'Car',
+              desc: "BMW"
             }
         ]
       })
-    }, 5000)
+    }, 2000)
   }
 
   render(){
@@ -44,10 +73,14 @@ class App extends Component {
         <Header />
         <div className="content">
           <h1>Туду лист</h1>
+          <button onClick={this.handleClick}>
+            {this.state.isToggleOn ? 'Включено' : 'Выключено'}
+          </button>
+          <button onClick={this.btn}>hello</button>
           {!this.state.todos.length && (<span>Nothing</span>)}
           {
             this.state.todos.map(item => {
-              return <Todo title={item.title} desc={item.desc} key={item.id}/>
+              return <Todo qwe={this.btn} id={item.id} title={item.title} desc={item.desc} key={item.id}/>
             })
           }
         </div>
