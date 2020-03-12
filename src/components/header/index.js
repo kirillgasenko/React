@@ -1,16 +1,19 @@
-import React from 'react';
-
+import React from "react";
 
 function Header() {
-    return (
-        <header className="header">
-            <form>
-                <input type="text" className="input" placeholder="Enter your login"/>
-                <input type="pasword" className="input" placeholder="Enter your password"/>
-                <button>Submit</button>
-            </form>
-        </header>
-    )
+  return (
+    <header className="header">
+      <form>
+        <input type="text" className="input" placeholder="Enter your login" />
+        <input
+          type="pasword"
+          className="input"
+          placeholder="Enter your password"
+        />
+        <button>Submit</button>
+      </form>
+    </header>
+  );
 }
 
-export default Header
+export default Header;
