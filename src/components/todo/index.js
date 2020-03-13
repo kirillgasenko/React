@@ -1,26 +1,47 @@
-import React from "react";
+import React, { Component } from "react";
 import "./style.css";
 
-function Todo(props) {
-  //   function edit() {
-  //     let title = document.querySelector(".mytittle").value;
-  //     let desc = document.getElementById("wq").value;
-  //     console.log(desc);
-  //     props.update(props.id, title, desc);
-  //   }
-  function qwe() {
-    props.qwe(props.id);
+class Todo extends React.Component {
+  takeTitle = e => {
+    this.setState({ newTitle: e.target.value });
+  };
+  takeDesc = e => {
+    this.setState({ newCar: e.target.value });
+  };
+  state = {
+    newTitle: "",
+    newCar: ""
+  };
+  edit = e => {
+    e.preventDefault();
+    this.props.update(this.props.id, this.state.newTitle, this.state.newCar);
+  };
+  qwe = e => {
+    e.preventDefault();
+    this.props.qwe(this.props.id);
+  };
+  render() {
+    return (
+      <form className="todo">
+        <h2 className="todo__title">{this.props.title}</h2>
+        <input
+          type="text"
+          className="mytittle"
+          value={this.state.newTitle}
+          onChange={this.takeTitle}
+        />
+        <p className="todo__description">{this.props.desc}</p>
+        <input
+          type="text"
+          className="myDesc"
+          defaultValue={this.state.desc}
+          onChange={this.takeDesc}
+        />
+        <button onClick={this.edit}>edit</button>
+        <button onClick={this.qwe}>delete</button>
+      </form>
+    );
   }
-  return (
-    <div className="todo">
-      <h2 className="todo__title">{props.title}</h2>
-      <input type="text" className="mytittle" />
-      <p className="todo__description">{props.desc}</p>
-      <input type="text" className="myDesc" data-columns id="wq" />
-      {/* <button onClick={edit}>edit</button> */}
-      <button onClick={qwe}>delete</button>
-    </div>
-  );
 }
 
 export default Todo;

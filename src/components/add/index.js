@@ -1,41 +1,38 @@
-import React from "react";
-
-function Add(props) {
-  function handleTitle(e) {
-    const tit = e.target.value;
-    console.log(tit);
+import React, { Component } from "react";
+class Add extends React.Component {
+  handleTitle = e => {
+    this.setState({ title: e.target.value });
+  };
+  handleDescription = e => {
+    this.setState({ car: e.target.value });
+  };
+  state = {
+    title: "",
+    car: ""
+  };
+  someNew = e => {
+    e.preventDefault();
+    this.props.add(this.state.title, this.state.car);
+  };
+  render() {
+    return (
+      <form className="header">
+        <input
+          type="text"
+          className="title"
+          onChange={this.handleTitle}
+          placeholder="Enter title"
+        />
+        <input
+          type="pasword"
+          onChange={this.handleDescription}
+          className="car"
+          placeholder="Enter car"
+        />
+        <button onClick={this.someNew}>Add</button>
+      </form>
+    );
   }
-  function handleDescription(e) {
-    const car = e.target.value;
-    console.log(car);
-  }
-  function Add() {
-    props.add(handleTitle());
-    // let title = document.querySelector(".title").value;
-    // let car = document.querySelector(".car").value;
-    // if ((title && car) !== "") {
-    //   props.add(title, car);
-    // } else {
-    //   alert("some fileds are empty");
-    // }
-  }
-  return (
-    <header className="header">
-      <input
-        type="text"
-        className="title"
-        onChange={handleTitle}
-        placeholder="Enter title"
-      />
-      <input
-        type="pasword"
-        onChange={handleDescription}
-        className="car"
-        placeholder="Enter car"
-      />
-      <button onClick={Add}>Add</button>
-    </header>
-  );
 }
 
 export default Add;

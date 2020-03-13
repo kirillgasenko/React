@@ -28,36 +28,32 @@ class App extends Component {
     todos: []
   };
 
-  handleAdd = (tit, car) => {
+  handleAdd = (title, car) => {
     const state = this.state.todos;
-    console.log(tit);
-    console.log(car);
     const arr = {
       id: state.length + 1,
-      title: tit,
+      title: title,
       desc: car
     };
-    console.log(arr);
     state.push(arr);
     this.setState({
       todos: state
     });
   };
 
-  // handleUpdate = (id, title, desc) => {
-  //   const arr = {
-  //     title: title,
-  //     desc: desc
-  //   };
-  //   const mas = this.state.todos.map(item => {
-  //     if (item.id === id) {
-  //       item.title = arr.title;
-  //       item.desc = arr.desc;
-  //       console.log(item);
-  //       this.setState({});
-  //     }
-  //   });
-  // };
+  handleUpdate = (id, newTitle, newCar) => {
+    const arr = {
+      title: newTitle,
+      desc: newCar
+    };
+    const mas = this.state.todos.map(item => {
+      if (item.id === id) {
+        item.title = arr.title;
+        item.desc = arr.desc;
+        this.setState({});
+      }
+    });
+  };
 
   shouldComponentUpdate(nextState) {
     return true;
