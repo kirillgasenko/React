@@ -1,20 +1,16 @@
-import React, { Component } from "react";
+import React from "react";
 import "./style.css";
 
-class Todo extends React.Component {
-  qwe = () => {
-    this.props.qwe(this.props.id);
-  };
-  render() {
+function Todo(props) {
     return (
-      <div className="todo">
-        <h2 className="todo__title">{this.props.title}</h2>
-        <p className="todo__description">{this.props.desc}</p>
-        <button type="button" onClick={() => this.props.edit(this.props.id)}>Open</button>
-        <button onClick={this.qwe}>delete</button>
+      <div className="content__todo">
+        <h2 className="todo__title">{props.title}</h2>
+        <p className="todo__description">{props.desc}</p>
+        <button type="button" onClick={() => props.edit(props.id)}>Open</button>
+        <button type="button" onClick={() => props.onRemoveTask(props.id)}>remove</button>  
       </div>
     );
-  }
+  
 }
 
 export default Todo;

@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+import {connect} from 'react-redux';
 import "../../App.css";
+import { removeTextTask, addTextTask, editTextTask } from '../../actions/index.js'
 
 import Add from "../add";
 import Header from "../header";
@@ -7,130 +9,64 @@ import Todo from "../todo";
 import Modal from '../modal';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.some = { isToggleOn: true };
-    this.handleClick = this.handleClick.bind(this);
-    this.btn = this.btn.bind(this);
-  }
-
-  handleClick() {
-    this.setState(some => ({
-      isToggleOn: !some.isToggleOn
-    }));
-  }
-
-  btn(id) {
-    this.setState({
-      todos: this.state.todos.filter(item => item.id !== id)
-    });
-  }
-
   state = {
     todos: [],
-    editPopup: null
+    editPopup: null,
+    textEdit: []
   };
 
-  handleAdd = (title, car) => {
-    const state = this.state.todos;
-    const arr = {
-      id: state.length + 1,
-      title: title,
-      desc: car
-    };
-    state.push(arr);
-    this.setState({
-      todos: state
-    });
+  addTask = (title, car) => {
+    const {addTextTask} = this.props;
+    addTextTask(title, car)
   };
 
-  componentDidMount = () => {
-    setTimeout(() => {
-      this.setState({
-        todos: [
-          {
-            id: 1,
-            title: "Car",
-            desc: "Subaru"
-          },
-          {
-            id: 2,
-            title: "Car",
-            desc: "Audi"
-          },
-          {
-            id: 3,
-            title: "Car",
-            desc: "Mercedes"
-          },
-          {
-            id: 4,
-            title: "Car",
-            desc: "BMW"
-          }
-        ]
-      });
-    }, 0);
+  handleRemoveClick = id => {
+    const {props: { removeTextTask } } = this;
+    removeTextTask(id);
   };
 
-  edit = data => {
-    const {state:{todos}} = this;
-    const editedArray = todos.map(item => {
-      if (item.id === data.id) {
-        item.title = data.title;
-        item.desc = data.desc;
-        console.log(item.title + item.desc)
-        return item;
-      }
-      return item;
-    });
-    
-    this.setState({todos: editedArray});
+
+  editTask = data => {
+    const {editTextTask} = this.props;
+    editTextTask(data)
     this.closeEditing();
-  }
+  };
 
   openEditing = id => {
-    const {
-      state: {
-        todos,
-      }
-    } = this
+    const {todos} = this.props
+
     if(todos.length > 0){
-        const edittableItem = todos.find(item => {
-          return item.id === id
-        })
-        if(edittableItem){
-          this.setState({editPopup: (
-            <Modal id={edittableItem.id} edit={this.edit} title={edittableItem.title} desc={edittableItem.desc}/>
-          )
-        })
-       }
+      const todo = todos.find(item => {
+        return item.id === id
+      })
+      if(todo){
+        this.setState({textEdit: todo})
+        this.setState({editPopup: true})
+      }
     }
-  }
+  };
+  
   closeEditing = () => {
     this.setState({editPopup: null})
-  }
-
+  };
+  
   render() {
-    const {
-      state: {
-        todos,
-        editPopup
-      }
-    } = this
+    const {todos} = this.props
+    const {editPopup, textEdit} = this.state;
+    
     return (
       <div className="App">
         <Header />
-        {!!editPopup && editPopup}
+        {editPopup && <Modal edit={this.editTask} id={textEdit.id} title={textEdit.title} desc={textEdit.desc}/>}
         <hr />
         <div className="content">
           <h1>Туду лист</h1>
-          <Add add={this.handleAdd} />
+          <Add onAdd={this.addTask} />
           {!todos.length && <span>Nothing</span>}
           {todos.map(item => {
             return (
               <Todo
-                qwe={this.btn}
+                onRemoveTask={this.handleRemoveClick}
                 id={item.id}
                 title={item.title}
                 desc={item.desc}
@@ -142,7 +78,11 @@ class App extends Component {
         </div>
       </div>
     );
-  }
+  };
 }
 
-export default App;
+export default connect(
+  state => ({
+    todos: state.todos
+  }), 
+  {removeTextTask, addTextTask, editTextTask})(App);
