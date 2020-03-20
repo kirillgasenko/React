@@ -24,7 +24,8 @@ const initialState = {
         }
     ],
     data: [],
-    error: []
+    error: [],
+    loading: false,
 }
 
 function Reducer(state = initialState, action){
@@ -60,7 +61,15 @@ function Reducer(state = initialState, action){
       return {
           ...state,
           error: action.error
-      }
+    }
+    case actions.SHOW_LOADER:
+      return {
+        ...state, loading: true
+    }
+    case actions.HIDE_LOADER:
+      return {
+        ...state, loading: false
+    }
     default:
     return state;
   }

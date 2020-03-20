@@ -4,3 +4,5 @@ export const REMOVE_TASK = "REMOVE_TASK";
 export const LOAD_DATA = "LOAD_DATA";
 export const SUCCEEDED_DATA = "SUCCEEDED_DATA";
 export const FAILED_DATA = "FAILED_DATA";
+export const SHOW_LOADER = "SHOW_LOADER";
+export const HIDE_LOADER = "HIDE_LOADER";

@@ -26,8 +26,10 @@ export const failedData = (error) => ({
     type: actions.FAILED_DATA,
     error: error
 })
-
-// export const setLoading = (loadingState) => ({
-//     type: actions.SET_LOADING,
-//     payload: loadingState
-// })
+export const showLoader = () => ({
+    type: actions.SHOW_LOADER
+})
+  
+export const hideLoader = () => ({
+    type: actions.HIDE_LOADER  
+})

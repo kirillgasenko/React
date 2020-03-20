@@ -1,11 +1,18 @@
 import React from "react";
 import styles from './Header.module.css';
-import { useDispatch, connect } from 'react-redux';
+import { useDispatch, connect, useSelector } from 'react-redux';
 import { loadData } from '../../actions/todoActions'
+import { Loader } from "../loader";
 
 function Header(props) {
   const dispatch = useDispatch();
   const onClick = () => dispatch(loadData())
+  const loading = useSelector(state => state.loading)
+
+
+  if(loading){
+    return <Loader />
+  }
   return (
     <header className={styles.header}>
         <span>{props.data.userId}</span>
@@ -18,5 +25,6 @@ function Header(props) {
 
 export default connect(
   state => ({
-    data: state.data
+    data: state.data,
+    loading: state.loading
   }), )(Header);
