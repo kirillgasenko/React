@@ -1,12 +1,8 @@
-export const removeTextTask = id => ({
-    type: 'REMOVE_TASK', 
-    payload: {id}
-})
-export const addTextTask = (title, car) => ({
-    type: 'ADD_TASK', 
-    payload: {title, car}
-})
-export const editTextTask = data => ({
-    type: 'EDIT_TASK', 
-    payload: {data}
-})
+export const ADD_TASK = "ADD_TASK";
+export const UPDATE_TASK = "UPDATE_TASK";
+export const REMOVE_TASK = "REMOVE_TASK";
+export const LOAD_DATA = "LOAD_DATA";
+export const SUCCEEDED_DATA = "SUCCEEDED_DATA";
+export const FAILED_DATA = "FAILED_DATA";
+export const SHOW_LOADER = "SHOW_LOADER";
+export const HIDE_LOADER = "HIDE_LOADER";

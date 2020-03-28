@@ -1,12 +1,12 @@
 import React from "react";
-import "./style.css";
+import styles from './Todo.module.css';
 
 function Todo(props) {
     return (
-      <div className="content__todo">
-        <h2 className="todo__title">{props.title}</h2>
-        <p className="todo__description">{props.desc}</p>
-        <button type="button" onClick={() => props.edit(props.id)}>Open</button>
+      <div>
+        <h2>{props.title}</h2>
+        <p className={styles.description}>{props.desc}</p>
+        <button type="button" onClick={() => props.onEdit(props.id)}>Open</button>
         <button type="button" onClick={() => props.onRemoveTask(props.id)}>remove</button>  
       </div>
     );

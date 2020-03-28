@@ -1,3 +1,5 @@
+import * as actions from "../actions/index";
+
 const initialState = {
     todos: [
         {
@@ -20,11 +22,15 @@ const initialState = {
           title: "Car",
           desc: "BMW"
         }
-    ]
+    ],
+    data: [],
+    error: [],
+    loading: false,
 }
+
 function Reducer(state = initialState, action){
   switch (action.type) {
-    case 'ADD_TASK':
+    case actions.ADD_TASK:
       return {
         ...state,
         todos: [
@@ -36,15 +42,33 @@ function Reducer(state = initialState, action){
           }
         ]
       } 
-    case 'EDIT_TASK':
+    case actions.UPDATE_TASK:
       return {
         ...state,
-        todos: state.todos.map(item => item.id === action.payload.data.id? action.payload.data : item)      
+        todos: state.todos.map(item => item.id === action.payload.data.id ? action.payload.data : item)      
       }
-    case 'REMOVE_TASK':
+    case actions.REMOVE_TASK:
       return {
         ...state,
         todos: state.todos.filter(item => item.id !== action.payload.id)
+    }
+    case actions.SUCCEEDED_DATA:
+      return {
+        ...state,
+        data: action.payload
+    }
+    case actions.FAILED_DATA:
+      return {
+          ...state,
+          error: action.error
+    }
+    case actions.SHOW_LOADER:
+      return {
+        ...state, loading: true
+    }
+    case actions.HIDE_LOADER:
+      return {
+        ...state, loading: false
     }
     default:
     return state;

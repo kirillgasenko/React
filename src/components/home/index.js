@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {connect} from 'react-redux';
-import "../../App.css";
-import { removeTextTask, addTextTask, editTextTask } from '../../actions/index.js'
+import { removeTask, addTask, editTask } from '../../actions/todoActions.js'
+import styles from './Home.module.css';
 
 import Add from "../add";
 import Header from "../header";
@@ -11,67 +11,65 @@ import Modal from '../modal';
 class App extends Component {
   state = {
     todos: [],
-    editPopup: null,
+    isEditPopup: false,
     textEdit: []
   };
 
   addTask = (title, car) => {
-    const {addTextTask} = this.props;
-    addTextTask(title, car)
+    const {addTask} = this.props;
+    addTask(title, car)
   };
 
-  handleRemoveClick = id => {
-    const {props: { removeTextTask } } = this;
-    removeTextTask(id);
+  handleRemoveTask = id => {
+    const {removeTask} = this.props;
+    removeTask(id);
   };
 
 
-  editTask = data => {
-    const {editTextTask} = this.props;
-    editTextTask(data)
+  handleEditClick = data => {
+    const {editTask} = this.props;
+    editTask(data)
     this.closeEditing();
   };
 
   openEditing = id => {
     const {todos} = this.props
-
-    if(todos.length > 0){
-      const todo = todos.find(item => {
-        return item.id === id
-      })
-      if(todo){
-        this.setState({textEdit: todo})
-        this.setState({editPopup: true})
-      }
+    const selectedTodo = todos.find(item => {
+      return item.id === id
+    })
+    if(selectedTodo){
+      this.setState({textEdit: selectedTodo})
+      this.setState({isEditPopup: true})
     }
+    
   };
   
   closeEditing = () => {
-    this.setState({editPopup: null})
+    this.setState({isEditPopup: false})
   };
   
   render() {
-    const {todos} = this.props
-    const {editPopup, textEdit} = this.state;
-    
+    const {todos} = this.props;
+    const {isEditPopup, textEdit} = this.state;
+   
     return (
-      <div className="App">
+      <div className={styles.App}>
         <Header />
-        {editPopup && <Modal edit={this.editTask} id={textEdit.id} title={textEdit.title} desc={textEdit.desc}/>}
+        {isEditPopup && <Modal edit={this.handleEditClick} id={textEdit.id} title={textEdit.title} desc={textEdit.desc}/>}
         <hr />
-        <div className="content">
-          <h1>Туду лист</h1>
+        <div className={styles.content}>
+          <h1 className={styles.font}>Туду лист</h1>
           <Add onAdd={this.addTask} />
           {!todos.length && <span>Nothing</span>}
           {todos.map(item => {
             return (
               <Todo
-                onRemoveTask={this.handleRemoveClick}
                 id={item.id}
                 title={item.title}
                 desc={item.desc}
                 key={item.id}
-                edit={this.openEditing}
+                onEdit={this.openEditing}
+                onRemoveTask={this.handleRemoveTask}
               />
             );
           })}
@@ -83,6 +81,7 @@ class App extends Component {
 
 export default connect(
   state => ({
-    todos: state.todos
+    todos: state.todos,
+    data: state.data
   }), 
-  {removeTextTask, addTextTask, editTextTask})(App);
+  {removeTask, addTask, editTask})(App);

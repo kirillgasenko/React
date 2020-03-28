@@ -1,13 +1,15 @@
 import React from "react";
+import styles from './Add.module.css';
+
 class Add extends React.Component {
     state = {
       title: "",
       car: ""
     };
-    handleTitle = e => {
+    handleTitleChange = e => {
       this.setState({ title: e.target.value });
     };
-    handleDescription = e => {
+    handleDescriptionChange = e => {
       this.setState({ car: e.target.value });
     };
     handleAdd = e => {
@@ -20,16 +22,16 @@ class Add extends React.Component {
           <input
             type="text"
             className="title"
-            onChange={this.handleTitle}
+            onChange={this.handleTitleChange}
             placeholder="Enter title"
           />
           <input
             type="pasword"
-            onChange={this.handleDescription}
+            onChange={this.handleDescriptionChange}
             className="car"
             placeholder="Enter car"
           />
-          <button onClick={this.handleAdd}>Add</button>
+          <button className={styles.add} onClick={this.handleAdd}>Add</button>
         </form>
     );
   }
